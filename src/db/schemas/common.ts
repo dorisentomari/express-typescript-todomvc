@@ -1,4 +1,4 @@
-import { formatTime } from 'src/helper/time';
+import { formatTime } from '../../helper/time';
 
 const commonFields = {
   deleted: {

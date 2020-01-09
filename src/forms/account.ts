@@ -16,5 +16,13 @@ export default {
   },
   rePassword: {
     notSameMessage: 'twice input password is not same'
+  },
+  login: {
+    userNotExist: 'user is not exist',
+    accountError: 'username or password wrong'
+  },
+  email: {
+    hasExist: 'email address has been used',
+    formatError: 'email format is wrong'
   }
 };

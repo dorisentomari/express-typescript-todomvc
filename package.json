@@ -20,12 +20,17 @@
     "build-ts": "rimraf dist && tsc"
   },
   "dependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/bluebird": "^3.5.29",
     "@types/chalk": "^2.2.0",
     "@types/connect-mongo": "^3.0.0",
     "@types/express-validator": "^3.0.0",
     "@types/glob": "^7.1.1",
+    "@types/gravatar": "^1.8.0",
+    "@types/md5": "^2.1.33",
     "@types/moment": "^2.13.0",
+    "@types/uuid": "^3.4.6",
+    "bcrypt": "^3.0.7",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "chalk": "^3.0.0",
@@ -35,10 +40,13 @@
     "express-session": "^1.17.0",
     "express-validator": "^6.3.1",
     "glob": "^7.1.6",
+    "gravatar": "^1.8.0",
+    "md5": "^2.2.1",
     "moment": "^2.24.0",
     "mongoose": "^4.13.20",
     "rimraf": "^3.0.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
