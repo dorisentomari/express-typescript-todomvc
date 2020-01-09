@@ -1,16 +1,44 @@
 {
   "name": "typescript-todomvc",
   "version": "1.0.0",
-  "main": ".eslintrc.js",
+  "main": "./src/app.ts",
+  "author": "dawnight",
+  "keywords": [],
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dawnight/typescript-todomvc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dawnight/typescript-todomvc/issues"
+  },
+  "homepage": "https://github.com/dawnight/typescript-todomvc#readme",
   "scripts": {
-    "gulp": "gulp",
-    "dev": "nodemon ./dist/app.js",
-    "lint": "eslint --fix src/**/*{.ts,.js}"
+    "dev": "cross-env NODE_ENV=development nodemon ./dist/app.js",
+    "serve": "cross-env NODE_ENV=production node ./dist/app.js",
+    "lint": "eslint --fix src/**/*{.ts,.js}",
+    "build-ts": "rimraf dist && tsc"
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.29",
+    "@types/chalk": "^2.2.0",
+    "@types/connect-mongo": "^3.0.0",
+    "@types/express-validator": "^3.0.0",
+    "@types/glob": "^7.1.1",
+    "@types/moment": "^2.13.0",
+    "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
+    "chalk": "^3.0.0",
+    "connect-mongo": "^3.2.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^4.13.20"
+    "express-session": "^1.17.0",
+    "express-validator": "^6.3.1",
+    "glob": "^7.1.6",
+    "moment": "^2.24.0",
+    "mongoose": "^4.13.20",
+    "rimraf": "^3.0.0",
+    "typescript": "^3.7.4"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -20,24 +48,9 @@
     "@types/node": "^13.1.4",
     "@typescript-eslint/eslint-plugin": "^2.15.0",
     "@typescript-eslint/parser": "^2.15.0",
+    "cross-env": "^6.0.3",
     "del": "^5.1.0",
-    "eslint": "^6.8.0",
-    "express-session": "^1.17.0",
-    "gulp": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-typescript": "^6.0.0-alpha.1",
-    "typescript": "^3.7.4"
+    "eslint": "^6.8.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dawnight/typescript-todomvc.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dawnight/typescript-todomvc/issues"
-  },
-  "homepage": "https://github.com/dawnight/typescript-todomvc#readme",
-  "description": ""
+  "license": "MIT"
 }

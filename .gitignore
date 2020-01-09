@@ -27,4 +27,5 @@ yarn-error.log*
 
 # prod
 dist/
-maps/
+.env.production
+
