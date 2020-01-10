@@ -6,7 +6,15 @@ export default {
     '/api/v1/account/exist/email',
     '/api/v1/account/update/password',
   ],
-  notLoginMsg: 'you didn\'t login, please login first'
+  notLoginMsg: 'you didn\'t login, please login first',
+  PAGE: {
+    PAGE_SIZE: 20 
+  },
+  DANGER_FIELDS: ['deleted', 'disabled', '__v', '_id', 'createTime', 'updateTime'],
+  HTTP_METHOD_MAP: {
+    GET: 'GET',
+    POST: 'POST',
+    PUT: 'PUT',
+    DELETE: 'DELETE'
+  }
 };
-
-

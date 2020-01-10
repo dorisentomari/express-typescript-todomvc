@@ -3,26 +3,26 @@ import { formatTime } from '../../helper/time';
 const commonFields = {
   deleted: {
     type: Boolean,
-    default: false
+    default: false 
   },
   disabled: {
     type: Boolean,
-    default: false
+    default: false 
   },
   createTime: {
     type: Date,
     default: new Date(),
-    get: (time: string) => formatTime(time)
+    get: (time: string) => formatTime(time) 
   },
   updateTime: {
     type: Date,
     default: new Date(),
-    get: (time: string) => formatTime(time)
+    get: (time: string) => formatTime(time) 
   },
   remark: {
     type: String,
-    default: ''
-  }
+    default: '' 
+  } 
 };
 
 export default commonFields;

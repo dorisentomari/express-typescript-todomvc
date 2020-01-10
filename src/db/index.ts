@@ -16,7 +16,7 @@ export const connectDB = () => {
   const options = {
     useMongoClient: true,
     autoReconnect: true,
-    poolSize: 10
+    poolSize: 10 
   };
 
   mongoose.set('debug', true);

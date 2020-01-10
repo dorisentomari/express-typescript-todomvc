@@ -1,5 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import {
+  Request, Response, NextFunction
+} from 'express';
+
 import CONSTANT from '../constant';
+
 import { RETURN_CODE } from '../types/account';
 
 export const checkLogin = (req: Request, res: Response, next: NextFunction) => {
@@ -13,6 +17,6 @@ export const checkLogin = (req: Request, res: Response, next: NextFunction) => {
   }
   return res.status(403).json({
     code: RETURN_CODE.ERROR,
-    errors: CONSTANT.notLoginMsg
+    errors: CONSTANT.notLoginMsg 
   });
 };
