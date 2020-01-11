@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import session from 'express-session';
+import mongo from 'connect-mongo';
 import glob from 'glob';
 import bluebird from 'bluebird';
 import chalk from 'chalk';
@@ -70,6 +72,21 @@ class App {
     this.app.use(bodyParser.json());
     this.app.use(loggerMiddleware.normalLogger);
     this.app.use(safeFields);
+
+    const { SECRET_SESSION, MONGODB_URL } = process.env;
+    const MongoStore = mongo(session);
+
+    this.app.use(session({
+      resave: true,
+      saveUninitialized: true,
+      secret: SECRET_SESSION,
+      store: new MongoStore({
+        url: MONGODB_URL,
+        autoReconnect: true,
+        collection: 'todos_sessions',
+        ttl: 7 * 24 * 60 * 60
+      })
+    }));
   }
 
   private initMiddlewaresAfterControllers() {

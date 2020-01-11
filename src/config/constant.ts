@@ -1,5 +1,5 @@
 export default {
-  SAFE_WORK_FACTOR: 5,
+  SALT_ROUNDS: 5,
   whiteList: [
     '/api/v1/account/login',
     '/api/v1/account/register',
