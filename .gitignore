@@ -28,4 +28,4 @@ yarn-error.log*
 # prod
 dist/
 .env.production
-
+log/
