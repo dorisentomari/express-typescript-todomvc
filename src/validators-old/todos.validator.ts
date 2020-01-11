@@ -1,14 +1,14 @@
 import { check } from 'express-validator';
 
-import TodosForms from '../forms/todos';
+import todosForms from '../forms/todos.forms';
 
-const { content } = TodosForms;
+const { content } = todosForms;
 
 export const validatorCreateTodo = [
   check('content')
     .isLength({
       min: content.minLength,
-      max: content.maxLength 
+      max: content.maxLength
     })
     .withMessage(content.lengthMessage)
 ];

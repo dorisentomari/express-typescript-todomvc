@@ -1,15 +1,17 @@
 import { check } from 'express-validator';
 
 import UserModel from '../db/schemas/user';
-import AccountForm from '../forms/account';
+import accountForm from '../forms/account.forms';
+import commonForms from '../forms/common.forms';
 
 const {
   password,
   rePassword,
   email: EmailForm,
-  vCode,
-  mongoId 
-} = AccountForm;
+  vCode
+} = accountForm;
+
+const { mongoId } = commonForms;
 
 export const validatorEmail = [
   check('email')
@@ -18,7 +20,7 @@ export const validatorEmail = [
     .withMessage(EmailForm.formatError)
     .isLength({
       min: EmailForm.minLength,
-      max: EmailForm.maxLength 
+      max: EmailForm.maxLength
     }).withMessage(EmailForm.lengthMessage)
 ];
 
@@ -27,7 +29,7 @@ export const validatorEmailExist = [
   check('email')
     .custom(async (email, { req }) => {
       let result: any = await UserModel.findOne({
-        email 
+        email
       });
       if (result) {
         req.vData = result._doc;
@@ -42,7 +44,7 @@ export const validatorEmailExistUse = [
   check('email')
     .custom(async (email, { req }) => {
       let result: any = await UserModel.findOne({
-        email 
+        email
       });
       if (result) {
         req.vData = result._doc;
@@ -56,7 +58,7 @@ export const validatorPassword = [
   check('password')
     .isLength({
       min: password.minLength,
-      max: password.maxLength 
+      max: password.maxLength
     })
     .withMessage(password.lengthMessage)
 ];
@@ -71,7 +73,7 @@ export const validatorRePassword = [
 export const validatorVCode = [
   check('vCode').isLength({
     min: vCode.minLength,
-    max: vCode.maxLength 
+    max: vCode.maxLength
   }).withMessage(vCode.lengthMessage)
 ];
 
@@ -94,12 +96,6 @@ export const validatorUpdatePassword = [
 
 export const validatorObjectUserId = [
   check('userId')
-    .isMongoId()
-    .withMessage(mongoId.formatError)
-];
-
-export const validatorObjectId = [
-  check('id')
     .isMongoId()
     .withMessage(mongoId.formatError)
 ];

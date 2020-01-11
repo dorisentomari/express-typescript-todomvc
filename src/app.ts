@@ -1,76 +1,132 @@
+import path from 'path';
 import fs from 'fs';
-import express from 'express';
-import session from 'express-session';
-import mongo from 'connect-mongo';
-import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
-import { connectDB, initSchema } from './db';
-import { checkLogin } from './middlewares/auth';
-import { safeFields } from './middlewares/safeFields';
-import { logger } from './middlewares/wiston';
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import glob from 'glob';
+import bluebird from 'bluebird';
+import chalk from 'chalk';
 
-import Router from './routes';
-import homeRoute from './routes/home';
+import Controller from './interfaces/controller';
 
-const result = dotenv.config();
-if (result.error) {
-  throw new Error('dotenv config error');
-}
+import errorMiddleware from './middlewares/error.middleware';
+import loggerMiddleware from './middlewares/logger.middleware';
+import safeFields from './middlewares/safeFields.middleware';
 
-const NODE_ENV = process.env.NODE_ENV.toUpperCase();
+class App {
+  public app: express.Application;
 
-const envConfig = dotenv.parse(
-  fs.readFileSync(`.env.${NODE_ENV.toLowerCase()}`)
-);
+  constructor(controllers: Controller[]) {
+    this.app = express();
 
-for(let key in envConfig) {
-  if (envConfig.hasOwnProperty(key)) {
-    process.env[key] = envConfig[key];
+    this.initEnvConfig();
+    this.connectToMongoDB();
+    this.initMiddlewaresBeforeControllers();
+    this.initControllers(controllers);
+    this.initMiddlewaresAfterControllers();
+    this.initErrorHandler();
+  }
+
+  public listen() {
+    const PORT = process.env.PORT;
+    this.app.listen(PORT, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`server is running at http://localhost:${PORT}`);
+      }
+    });
+  }
+
+  public getServer() {
+    return this.app;
+  }
+
+  private initEnvConfig () {
+    const result = dotenv.config();
+    if (result.error) {
+      throw new Error('dotenv config error');
+    }
+
+    const NODE_ENV = process.env.NODE_ENV.toUpperCase();
+
+    const envConfig = dotenv.parse(
+      fs.readFileSync(path.resolve(__dirname, `../.env.${NODE_ENV.toLowerCase()}`))
+    );
+
+    for(let key in envConfig) {
+      if (envConfig.hasOwnProperty(key)) {
+        process.env[key] = envConfig[key];
+      }
+    }
+  }
+
+  private initMiddlewaresBeforeControllers() {
+    this.app.use(bodyParser.urlencoded({
+      extended: true
+    }));
+    this.app.use(bodyParser.json());
+    this.app.use(loggerMiddleware.normalLogger);
+    this.app.use(safeFields);
+  }
+
+  private initMiddlewaresAfterControllers() {
+    this.app.use(loggerMiddleware.errorLogger);
+  }
+
+  private initErrorHandler() {
+    this.app.use(errorMiddleware);
+  }
+
+  private initControllers(controllers: Controller[]) {
+    controllers.forEach(controller => {
+      this.app.use('/api/v1', controller.router);
+    });
+  }
+
+  private initMongoSchemas() {
+    glob
+      .sync(path.resolve(__dirname, './db/schemas/', '**/*.ts'))
+      .forEach(schema => import(schema));
+  }
+
+  private connectToMongoDB() {
+    mongoose.Promise = bluebird.Promise;
+
+    this.initMongoSchemas();
+
+    const options = {
+      useMongoClient: true,
+      autoReconnect: true,
+      poolSize: 10
+    };
+
+    mongoose.set('debug', true);
+
+    mongoose.connect(process.env.MONGODB_URL, options, err => {
+      if (err) {
+        console.log(chalk['red']('连接 MongoDB 数据库出错'));
+        console.log(err);
+      } else {
+        console.log(chalk['green']('MongoDB 数据库连接成功'));
+      }
+    });
+
+    mongoose.connection.on('error', error => {
+      console.log(chalk['red']('MongoDB 数据库出错'));
+      console.log(error);
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      console.log('MongoDB 数据库断开连接');
+    });
+
+    mongoose.connection.once('open', () => {
+      console.log(chalk['green']('MongoDB 数据库已开启'));
+    });
   }
 }
 
-(() => {
-  initSchema();
-  connectDB();
-})();
-
-const PORT = 8001;
-
-const app = express();
-const MongoStore = mongo(session);
-
-app.use(bodyParser.urlencoded({
-  extended: true 
-}));
-app.use(bodyParser.json());
-
-const { SECRET_SESSION, MONGODB_URL } = process.env;
-
-app.use(session({
-  resave: true,
-  saveUninitialized: true,
-  secret: SECRET_SESSION,
-  store: new MongoStore({
-    url: MONGODB_URL,
-    autoReconnect: true,
-    collection: 'todos_sessions',
-    ttl: 7 * 24 * 60 * 60 
-  }) 
-}));
-app.use(checkLogin);
-app.use(safeFields);
-app.use(logger.normalLogger);
-
-app.use('/', homeRoute);
-app.use('/api/v1', Router);
-
-app.use(logger.errorLogger);
-
-app.listen(PORT, (err: Error) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log(`server is running at http://localhost:${PORT}`);
-  }
-});
+export default App;

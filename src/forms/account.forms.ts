@@ -3,7 +3,7 @@ const maxLength = 16;
 const vCodeLength = 6;
 const emailMaxLength = 30;
 
-export default {
+const accountForms = {
   username: {
     minLength: minLength,
     maxLength: maxLength,
@@ -33,8 +33,7 @@ export default {
   login: {
     userNotExist: 'user is not exist',
     accountError: 'username or password wrong'
-  },
-  mongoId: {
-    formatError: 'mongo id format is wrong'
   }
 };
+
+export default accountForms;

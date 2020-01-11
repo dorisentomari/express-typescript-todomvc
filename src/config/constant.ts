@@ -8,7 +8,7 @@ export default {
   ],
   notLoginMsg: 'you didn\'t login, please login first',
   PAGE: {
-    PAGE_SIZE: 20 
+    PAGE_SIZE: 20
   },
   DANGER_FIELDS: ['deleted', 'disabled', '__v', '_id', 'createTime', 'updateTime'],
   HTTP_METHOD_MAP: {

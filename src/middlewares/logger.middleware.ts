@@ -33,7 +33,7 @@ const commonConfig = {
   )
 };
 
-export const logger = {
+const loggerMiddleware = {
   normalLogger: expressWinston.logger({
     transports: [
       new winston.transports.File({
@@ -63,7 +63,4 @@ export const logger = {
   }))
 };
 
-
-
-
-
+export default loggerMiddleware;

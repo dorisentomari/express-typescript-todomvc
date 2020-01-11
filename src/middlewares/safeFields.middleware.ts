@@ -2,14 +2,14 @@ import {
   Request, Response, NextFunction
 } from 'express';
 
-import CONSTANT from '../constant';
+import constant from '../config/constant';
 
-export const safeFields = (req: Request, res: Response, next: NextFunction) => {
+const safeFields = (req: Request, res: Response, next: NextFunction) => {
   const {
     DANGER_FIELDS, HTTP_METHOD_MAP: {
-      GET, POST, PUT, DELETE 
-    } 
-  } = CONSTANT;
+      GET, POST, PUT, DELETE
+    }
+  } = constant;
 
   let method = req.method.toUpperCase();
 
@@ -33,3 +33,5 @@ export const safeFields = (req: Request, res: Response, next: NextFunction) => {
   }
   next();
 };
+
+export default safeFields;
