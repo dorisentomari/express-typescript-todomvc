@@ -2,15 +2,20 @@ import express, { Request, Response } from 'express';
 import gravatar from 'gravatar';
 import bcrypt from 'bcrypt';
 
+import constant from '../config/constant';
+
 import UserModel from '../db/schemas/user';
 import Controller from '../interfaces/controller';
 import validationMiddleware from '../middlewares/validator.middleware';
 import { AccountRegisterValidator, AccountLoginValidator } from '../validators/account.validator';
-import constant from '../config/constant';
+import AuthorizationService from '../service/authorization.service';
+import { JwtTokenInterface } from '../interfaces/service/jwt.token';
+
 
 class AccountController implements Controller {
   public path = '/account';
   public router = express.Router();
+  private authorizationService = new AuthorizationService();
 
   constructor() {
     this.initRoutes();
@@ -45,6 +50,8 @@ class AccountController implements Controller {
       password: hash,
       avatar: gravatar.url(email)
     });
+    console.log('createdAccount');
+    console.log(createdAccount);
     const savedAccount = await createdAccount.save();
     return res.send(savedAccount);
   }
@@ -56,7 +63,7 @@ class AccountController implements Controller {
     const createdAccount = await UserModel.findOne({ email });
 
     if (!createdAccount) {
-      return res.status(400).send('用户名或密码错误1');
+      return res.status(400).send('用户名或密码错误');
     }
 
     const { password: bcryptPassword } = createdAccount;
@@ -64,18 +71,15 @@ class AccountController implements Controller {
     const isSame = bcrypt.compareSync(loginPassword, bcryptPassword);
 
     if (isSame) {
-      req.session.user = {
-        username: createdAccount.username,
-        id: createdAccount._id,
-        email: createdAccount.email
-      };
-      return res.status(200).send('登录成功');
+      const tokenData: JwtTokenInterface = this.authorizationService.createToken({ id: createdAccount._id });
+      res.setHeader('Set-Cookie', [this.authorizationService.createCookie(tokenData)]);
+      return res.status(200).send(tokenData);
     }
-    return res.status(400).send('用户名或密码错误2');
+    return res.status(400).send('用户名或密码错误');
   }
 
   private async accountLogout (req: Request, res: Response) {
-    req.session.user = null;
+    res.setHeader('Set-Cookie', ['Authorization=;Max-age=0']);
     return res.status(200);
   }
 

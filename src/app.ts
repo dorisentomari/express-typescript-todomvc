@@ -10,12 +10,14 @@ import mongo from 'connect-mongo';
 import glob from 'glob';
 import bluebird from 'bluebird';
 import chalk from 'chalk';
+import cors from 'cors';
 
 import Controller from './interfaces/controller';
 
 import errorMiddleware from './middlewares/error.middleware';
 import loggerMiddleware from './middlewares/logger.middleware';
-import safeFields from './middlewares/safeFields.middleware';
+import safeFieldsMiddleware from './middlewares/safeFields.middleware';
+import authorizationMiddleware from './middlewares/authorization.middleware';
 
 class App {
   public app: express.Application;
@@ -66,12 +68,18 @@ class App {
   }
 
   private initMiddlewaresBeforeControllers() {
+    const corsOptions = {
+      origin: 'http://locahost:3000',
+      optionsSuccessStatus: 200
+    };
+    this.app.use(cors());
     this.app.use(bodyParser.urlencoded({
       extended: true
     }));
     this.app.use(bodyParser.json());
     this.app.use(loggerMiddleware.normalLogger);
-    this.app.use(safeFields);
+    this.app.use(safeFieldsMiddleware);
+    this.app.use(authorizationMiddleware);
 
     const { SECRET_SESSION, MONGODB_URL } = process.env;
     const MongoStore = mongo(session);

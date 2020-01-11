@@ -4,7 +4,7 @@ import {
 
 import constant from '../config/constant';
 
-const safeFields = (req: Request, res: Response, next: NextFunction) => {
+const safeFieldsMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const {
     DANGER_FIELDS, HTTP_METHOD_MAP: {
       GET, POST, PUT, DELETE
@@ -34,4 +34,4 @@ const safeFields = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-export default safeFields;
+export default safeFieldsMiddleware;
