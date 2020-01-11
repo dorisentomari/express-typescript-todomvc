@@ -12,10 +12,12 @@ export const checkLogin = (req: Request, res: Response, next: NextFunction) => {
   if (CONSTANT.whiteList.includes(path)) {
     return next();
   }
+
   if (req.session.user) {
     return next();
   }
-  return res.status(403).json({
+
+  return res.status(401).json({
     code: RETURN_CODE.ERROR,
     errors: CONSTANT.notLoginMsg 
   });

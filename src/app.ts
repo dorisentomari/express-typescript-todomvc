@@ -8,6 +8,7 @@ import dotenv from 'dotenv';
 import { connectDB, initSchema } from './db';
 import { checkLogin } from './middlewares/auth';
 import { safeFields } from './middlewares/safeFields';
+import { logger } from './middlewares/wiston';
 
 import Router from './routes';
 import homeRoute from './routes/home';
@@ -59,9 +60,12 @@ app.use(session({
 }));
 app.use(checkLogin);
 app.use(safeFields);
+app.use(logger.normalLogger);
 
 app.use('/', homeRoute);
 app.use('/api/v1', Router);
+
+app.use(logger.errorLogger);
 
 app.listen(PORT, (err: Error) => {
   if (err) {

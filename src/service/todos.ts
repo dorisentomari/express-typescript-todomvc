@@ -1,8 +1,6 @@
 import { check } from 'express-validator';
-import TodosModel from '../db/schemas/todos';
 
 import TodosForms from '../forms/todos';
-import { validatorObjectId } from './account';
 
 const { content } = TodosForms;
 
