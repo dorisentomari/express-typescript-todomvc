@@ -16,11 +16,14 @@ const authorizationMiddleware = async (req: Request, res: Response, next: NextFu
   if (WHITE_LIST.includes(path)) {
     return next();
   }
-  const cookies = req.cookies;
-  if (cookies && cookies.Authorization) {
+  const headers = req.headers;
+
+  if (headers && headers.authorization) {
     const secret = process.env.JWT_SECRET;
     try {
-      const verificationResponse = jwt.verify(cookies.Authorization, secret) as JwtTokenUserInterface;
+      const authorization = headers.authorization;
+      const verificationResponse = jwt.verify(authorization, secret) as JwtTokenUserInterface;
+
       const id = verificationResponse.id;
       const user = await UserModel.findById(id);
       if (user) {
