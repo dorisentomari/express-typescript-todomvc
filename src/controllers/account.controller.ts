@@ -11,13 +11,13 @@ import { AccountRegisterValidator, AccountLoginValidator } from '../validators/a
 import AuthorizationService from '../service/authorization.service';
 import { JwtTokenInterface } from '../interfaces/service/jwt.token';
 
-
 class AccountController implements Controller {
-  public path = '/account';
-  public router = express.Router();
-  private authorizationService = new AuthorizationService();
+  public path;
+  public router;
 
   constructor() {
+    this.path = '/account';
+    this.router = express.Router();
     this.initRoutes();
   }
 
@@ -34,13 +34,17 @@ class AccountController implements Controller {
     } = accountData;
 
     if (password !== rePassword) {
-      return res.status(400).send('两次输入的密码不一致');
+      return res.status(400).json({
+        message: '两次输入的密码不一致'
+      });
     }
 
     const hasEmail  = await UserModel.findOne({ email });
 
     if (hasEmail) {
-      return res.status(400).send('邮箱已被使用');
+      return res.status(400).json({
+        message: '邮箱已被使用'
+      });
     }
 
     const salt = bcrypt.genSaltSync(constant.SALT_ROUNDS);
@@ -50,10 +54,11 @@ class AccountController implements Controller {
       password: hash,
       avatar: gravatar.url(email)
     });
-    console.log('createdAccount');
-    console.log(createdAccount);
+
     const savedAccount = await createdAccount.save();
-    return res.send(savedAccount);
+    return res.json({
+      data: savedAccount
+    });
   }
 
   private async accountLogin (req: Request, res: Response) {
@@ -63,7 +68,9 @@ class AccountController implements Controller {
     const createdAccount = await UserModel.findOne({ email });
 
     if (!createdAccount) {
-      return res.status(400).send('用户名或密码错误');
+      return res.status(400).json({
+        message: '用户名或密码错误'
+      });
     }
 
     const { password: bcryptPassword } = createdAccount;
@@ -71,11 +78,17 @@ class AccountController implements Controller {
     const isSame = bcrypt.compareSync(loginPassword, bcryptPassword);
 
     if (isSame) {
-      const tokenData: JwtTokenInterface = this.authorizationService.createToken({ id: createdAccount._id });
-      res.setHeader('Set-Cookie', [this.authorizationService.createCookie(tokenData)]);
-      return res.status(200).send(tokenData);
+      const authorizationService = new AuthorizationService();
+
+      const tokenData: JwtTokenInterface = authorizationService.createToken({ id: createdAccount._id });
+      res.setHeader('Set-Cookie', [authorizationService.createCookie(tokenData)]);
+      return res.status(200).json({
+        data: tokenData
+      });
     }
-    return res.status(400).send('用户名或密码错误');
+    return res.status(400).json({
+      message: '用户名或密码错误'
+    });
   }
 
   private async accountLogout (req: Request, res: Response) {

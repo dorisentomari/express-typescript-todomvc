@@ -5,8 +5,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import session from 'express-session';
-import mongo from 'connect-mongo';
 import glob from 'glob';
 import bluebird from 'bluebird';
 import chalk from 'chalk';
@@ -68,10 +66,7 @@ class App {
   }
 
   private initMiddlewaresBeforeControllers() {
-    const corsOptions = {
-      origin: 'http://locahost:3000',
-      optionsSuccessStatus: 200
-    };
+
     this.app.use(cors());
     this.app.use(bodyParser.urlencoded({
       extended: true
@@ -81,20 +76,6 @@ class App {
     this.app.use(safeFieldsMiddleware);
     this.app.use(authorizationMiddleware);
 
-    const { SECRET_SESSION, MONGODB_URL } = process.env;
-    const MongoStore = mongo(session);
-
-    this.app.use(session({
-      resave: true,
-      saveUninitialized: true,
-      secret: SECRET_SESSION,
-      store: new MongoStore({
-        url: MONGODB_URL,
-        autoReconnect: true,
-        collection: 'todos_sessions',
-        ttl: 7 * 24 * 60 * 60
-      })
-    }));
   }
 
   private initMiddlewaresAfterControllers() {

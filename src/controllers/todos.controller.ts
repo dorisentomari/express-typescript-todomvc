@@ -50,7 +50,9 @@ class TodosController implements Controller {
     if (updatedTodos) {
       return res.status(200);
     }
-    res.status(400).send('数据不存在');
+    res.status(400).json({
+      message: '数据不存在'
+    });
   }
 
   private async todosDelete (req: Request, res: Response) {
@@ -61,7 +63,9 @@ class TodosController implements Controller {
     if (updatedTodos) {
       return res.status(200);
     }
-    return res.status(400).send('数据不存在');
+    return res.status(400).json({
+      message: '数据不存在'
+    });
   }
 
   private async todosList (req: Request, res: Response) {
@@ -70,7 +74,7 @@ class TodosController implements Controller {
       .limit(PAGE_SIZE);
     let dbCount = await TodosModel.find({ deleted: false }).count();
 
-    return res.status(200).send({
+    return res.status(200).json({
       data: todosList,
       profile: {
         page: page,

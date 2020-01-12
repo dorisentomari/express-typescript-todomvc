@@ -1,14 +1,9 @@
 import { IsEmail, Length } from 'class-validator';
 import accountForms from '../forms/account.forms';
 
-const {
-  email, password, rePassword 
-} = accountForms;
+const { password, rePassword } = accountForms;
 
 export class AccountLoginValidator {
-  @Length(email.minLength, email.maxLength,{
-    message: email.lengthMessage
-  })
   @IsEmail()
   public email: string;
 

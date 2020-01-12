@@ -1,13 +1,11 @@
 const minLength = 8;
-const maxLength = 16;
-const vCodeLength = 6;
-const emailMaxLength = 30;
+const maxLength = 30;
 
 const accountForms = {
-  username: {
-    minLength: minLength,
-    maxLength: maxLength,
-    lengthMessage: `username length must be between ${minLength} and  ${maxLength}`
+  email: {
+    notExist: 'email address is not exist',
+    hasExist: 'email address has been used',
+    formatError: 'email format is wrong'
   },
   password: {
     minLength: minLength,
@@ -16,19 +14,6 @@ const accountForms = {
   },
   rePassword: {
     notSameMessage: 'twice input password is not same'
-  },
-  vCode: {
-    minLength: vCodeLength,
-    maxLength: vCodeLength,
-    lengthMessage: `vCode length must be ${vCodeLength}`
-  },
-  email: {
-    minLength: minLength,
-    maxLength: emailMaxLength,
-    lengthMessage: `email length must be between ${minLength} and  ${emailMaxLength}`,
-    notExist: 'email address is not exist',
-    hasExist: 'email address has been used',
-    formatError: 'email format is wrong'
   },
   login: {
     userNotExist: 'user is not exist',
