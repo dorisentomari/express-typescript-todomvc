@@ -17,6 +17,7 @@ export default {
     DELETE: 'DELETE'
   },
   JWT: {
-    EXPIRES_IN: 60 * 60
+    // 过期时间单位是秒
+    EXPIRES_IN: 60
   }
 };

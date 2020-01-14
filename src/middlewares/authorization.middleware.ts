@@ -23,7 +23,6 @@ const authorizationMiddleware = async (req: Request, res: Response, next: NextFu
     try {
       const authorization = headers.authorization;
       const verificationResponse = jwt.verify(authorization, secret) as JwtTokenUserInterface;
-
       const id = verificationResponse.id;
       const user = await UserModel.findById(id);
       if (user) {

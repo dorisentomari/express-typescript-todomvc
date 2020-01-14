@@ -4,5 +4,7 @@ export interface JwtTokenInterface {
 }
 
 export interface JwtTokenUserInterface {
+  iat: number;
+  exp: number;
   id: string;
 }
