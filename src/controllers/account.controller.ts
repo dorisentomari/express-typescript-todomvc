@@ -4,19 +4,20 @@ import bcrypt from 'bcrypt';
 
 import constant from '../config/constant';
 
-import UserModel from '../db/schemas/user';
-import Controller from '../interfaces/controller';
+import UserModel from '../db/schemas/user.schema';
+import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
+
 import validationMiddleware from '../middlewares/validator.middleware';
 import { AccountRegisterValidator, AccountLoginValidator } from '../validators/account.validator';
 import AuthorizationService from '../service/authorization.service';
-import { JwtTokenInterface } from '../interfaces/service/jwt.token';
+import { JwtTokenInterface } from '../interfaces/service/jwt.token.interface';
 
-class AccountController implements Controller {
+class AccountController implements ControllerInterface {
   public path;
   public router;
 
-  constructor() {
-    this.path = '/account';
+  constructor({ path }: ControllerConstructorInterface) {
+    this.path = path;
     this.router = express.Router();
     this.initRoutes();
   }

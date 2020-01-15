@@ -1,4 +1,4 @@
-interface Common {
+interface CommonSchemaInterface {
   deleted: boolean;
   disabled: boolean;
   remark: string;
@@ -6,4 +6,4 @@ interface Common {
   updateTime: Date;
 }
 
-export default Common;
+export default CommonSchemaInterface;

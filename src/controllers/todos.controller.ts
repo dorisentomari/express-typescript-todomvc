@@ -1,8 +1,7 @@
 import express, { Request, Response } from 'express';
 
-import Controller from '../interfaces/controller';
-
-import TodosModel from '../db/schemas/todos';
+import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
+import TodosModel from '../db/schemas/todos.schema';
 import validationMiddleware from '../middlewares/validator.middleware';
 import { TodosCreateUpdateValidator } from '../validators/todos.validator';
 
@@ -10,11 +9,12 @@ import constant from '../config/constant';
 
 const { PAGE: { PAGE_SIZE } } = constant;
 
-class TodosController implements Controller {
-  public path = '/todos';
+class TodosController implements ControllerInterface {
+  public path;
   public router = express.Router();
 
-  constructor() {
+  constructor({ path }: ControllerConstructorInterface) {
+    this.path = path;
     this.initRoutes();
   }
 

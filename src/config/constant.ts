@@ -1,6 +1,9 @@
 export default {
   SALT_ROUNDS: 5,
   WHITE_LIST: [
+    '/',
+    '/favicon.ico',
+    '/robot.txt',
     '/api/v1/account/login',
     '/api/v1/account/register',
     '/api/v1/account/exist/email',
@@ -18,6 +21,6 @@ export default {
   },
   JWT: {
     // 过期时间单位是秒
-    EXPIRES_IN: 60
+    EXPIRES_IN: 60 * 60
   }
 };

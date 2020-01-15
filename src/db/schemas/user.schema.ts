@@ -1,7 +1,7 @@
 import mongoose, { Document } from 'mongoose';
 import md5 from 'md5';
 
-import UserInterface from '../../interfaces/schemas/user';
+import UserInterface from '../../interfaces/schemas/user.schema.interface';
 import commonSchema from '../common';
 import { formatTime } from '../../helper/time';
 import { randomStr } from '../../helper/random';

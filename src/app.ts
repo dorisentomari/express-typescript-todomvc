@@ -10,7 +10,7 @@ import bluebird from 'bluebird';
 import chalk from 'chalk';
 import cors from 'cors';
 
-import Controller from './interfaces/controller';
+import { ControllerInterface } from './interfaces/controller.interface';
 
 import errorMiddleware from './middlewares/error.middleware';
 import loggerMiddleware from './middlewares/logger.middleware';
@@ -20,7 +20,7 @@ import authorizationMiddleware from './middlewares/authorization.middleware';
 class App {
   public app: express.Application;
 
-  constructor(controllers: Controller[]) {
+  constructor(controllers: ControllerInterface[]) {
     this.app = express();
 
     this.initEnvConfig();
@@ -86,9 +86,9 @@ class App {
     this.app.use(errorMiddleware);
   }
 
-  private initControllers(controllers: Controller[]) {
+  private initControllers(controllers: ControllerInterface[]) {
     controllers.forEach(controller => {
-      this.app.use('/api/v1', controller.router);
+      this.app.use('/', controller.router);
     });
   }
 

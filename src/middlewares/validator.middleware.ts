@@ -4,7 +4,7 @@ import {
 
 import { plainToClass } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
-import HttpException from '../exceptions/HttpException';
+import HttpException from '../exceptions/http.exception';
 
 import constant from '../config/constant';
 

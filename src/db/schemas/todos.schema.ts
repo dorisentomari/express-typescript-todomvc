@@ -1,6 +1,6 @@
 import mongoose, { Document } from 'mongoose';
 
-import Todos from '../../interfaces/schemas/todos';
+import TodosSchemaInterface from '../../interfaces/schemas/todos.schema.interface';
 import commonSchema from '../common';
 import { formatTime } from '../../helper/time';
 
@@ -22,7 +22,7 @@ const TodosSchema = new Schema({
   ...commonSchema
 });
 
-const TodosModel = mongoose.model<Todos & Document>('todos', TodosSchema);
+const TodosModel = mongoose.model<TodosSchemaInterface & Document>('todos', TodosSchema);
 
 TodosSchema.methods.toJSON = function() {
   let result = this.toObject();

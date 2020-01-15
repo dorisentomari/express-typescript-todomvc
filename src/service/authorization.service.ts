@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { JwtTokenInterface, JwtTokenUserInterface } from '../interfaces/service/jwt.token';
+import { JwtTokenInterface, JwtTokenUserInterface } from '../interfaces/service/jwt.token.interface';
 
 import constant from '../config/constant';
 
@@ -21,7 +21,7 @@ class AuthorizationService {
     // 东八区 加上 8 个小时 8 * 60 * 60
     return {
       token,
-      expiresIn: expiresIn + +new Date() + 8 * 60 * 60
+      expiresIn: expiresIn * 1000 + +new Date() + 8 * 60 * 60 * 1000
     };
   }
 
