@@ -3,8 +3,8 @@ import md5 from 'md5';
 
 import UserInterface from '../../interfaces/schemas/user.schema.interface';
 import commonSchema from '../common';
-import { formatTime } from '../../helper/time';
-import { randomStr } from '../../helper/random';
+import { formatTime } from '../../helpers/time';
+import { randomStr } from '../../helpers/random';
 
 const Schema = mongoose.Schema;
 

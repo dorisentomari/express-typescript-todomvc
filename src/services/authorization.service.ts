@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { JwtTokenInterface, JwtTokenUserInterface } from '../interfaces/service/jwt.token.interface';
+import { JwtTokenInterface, JwtTokenUserInterface } from '../interfaces/services/jwt.token.interface';
 
 import constant from '../config/constant';
 

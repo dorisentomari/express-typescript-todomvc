@@ -2,15 +2,15 @@ import express, { Request, Response } from 'express';
 import gravatar from 'gravatar';
 import bcrypt from 'bcrypt';
 
+import UserModel from '../db/schemas/user.schema';
 import constant from '../config/constant';
 
-import UserModel from '../db/schemas/user.schema';
-import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
-
 import validationMiddleware from '../middlewares/validator.middleware';
+import AuthorizationService from '../services/authorization.service';
 import { AccountRegisterValidator, AccountLoginValidator } from '../validators/account.validator';
-import AuthorizationService from '../service/authorization.service';
-import { JwtTokenInterface } from '../interfaces/service/jwt.token.interface';
+
+import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
+import { JwtTokenInterface } from '../interfaces/services/jwt.token.interface';
 
 class AccountController implements ControllerInterface {
   public path;

@@ -2,7 +2,7 @@ import mongoose, { Document } from 'mongoose';
 
 import TodosSchemaInterface from '../../interfaces/schemas/todos.schema.interface';
 import commonSchema from '../common';
-import { formatTime } from '../../helper/time';
+import { formatTime } from '../../helpers/time';
 
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;

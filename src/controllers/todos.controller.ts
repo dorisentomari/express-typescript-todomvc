@@ -1,11 +1,12 @@
 import express, { Request, Response } from 'express';
 
-import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
 import TodosModel from '../db/schemas/todos.schema';
+import constant from '../config/constant';
+
 import validationMiddleware from '../middlewares/validator.middleware';
 import { TodosCreateUpdateValidator } from '../validators/todos.validator';
 
-import constant from '../config/constant';
+import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
 
 const { PAGE: { PAGE_SIZE } } = constant;
 

@@ -4,7 +4,7 @@ import {
 import jwt from 'jsonwebtoken';
 
 import constant from '../config/constant';
-import { JwtTokenUserInterface } from '../interfaces/service/jwt.token.interface';
+import { JwtTokenUserInterface } from '../interfaces/services/jwt.token.interface';
 import UserModel from '../db/schemas/user.schema';
 import WrongAuthorizationTokenException from '../exceptions/wrong.authorization.token.exception';
 import NotAuthorizedException from '../exceptions/not.authorized.exception';

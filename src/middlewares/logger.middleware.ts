@@ -1,7 +1,7 @@
 import path from 'path';
 import winston from 'winston';
 import expressWinston from 'express-winston';
-import { formatTime } from '../helper/time';
+import { formatTime } from '../helpers/time';
 
 const today = formatTime(new Date(), false);
 
