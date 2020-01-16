@@ -50,7 +50,7 @@ class TodosController implements ControllerInterface {
       remark
     });
     if (updatedTodos) {
-      return res.status(200);
+      return res.send(200);
     }
     res.status(400).json({
       message: '数据不存在'
@@ -63,7 +63,7 @@ class TodosController implements ControllerInterface {
     const updatedTodos = await TodosModel.findByIdAndRemove(id);
 
     if (updatedTodos) {
-      return res.status(200);
+      return res.send(200);
     }
     return res.status(400).json({
       message: '数据不存在'
@@ -71,16 +71,18 @@ class TodosController implements ControllerInterface {
   }
 
   private async todosList (req: Request, res: Response) {
-    const { page = 1 } = req.query;
-    const todosList = await TodosModel.find().sort({ _id: -1 }).skip((page - 1) * PAGE_SIZE)
-      .limit(PAGE_SIZE);
+    let { page = 1, pageSize = PAGE_SIZE } = req.query;
+    page = Number(page);
+    pageSize = Number(pageSize);
+    const todosList = await TodosModel.find().sort({ _id: -1 }).skip((page - 1) * pageSize)
+      .limit(Number(pageSize));
     let dbCount = await TodosModel.find({ deleted: false }).count();
 
     return res.status(200).json({
       data: todosList,
       profile: {
-        page: page,
-        pageSize: PAGE_SIZE,
+        page,
+        pageSize,
         total: dbCount
       }
     });

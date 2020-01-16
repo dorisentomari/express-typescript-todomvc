@@ -26,10 +26,8 @@ const TodosModel = mongoose.model<TodosSchemaInterface & Document>('todos', Todo
 
 TodosSchema.methods.toJSON = function() {
   let result = this.toObject();
-  result.id = result._id;
   result.createTime = formatTime(result.createTime);
   result.updateTime = formatTime(result.updateTime);
-  delete result._id;
   delete result.__v;
   return result;
 };
