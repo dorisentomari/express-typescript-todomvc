@@ -29,11 +29,12 @@ class TodosController implements ControllerInterface {
   private async todosCreate (req: Request, res: Response) {
     const todosData: TodosCreateUpdateValidator = req.body;
     const { content, remark } = todosData;
-    const user = req.session.user;
+
     const createdTodos = new TodosModel({
       content,
       remark,
-      userId: user.id
+      // @ts-ignore
+      userId: req.user._id
     });
     const savedTodos = await createdTodos.save();
     return res.send(savedTodos);
