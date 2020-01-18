@@ -7,6 +7,7 @@ import validationMiddleware from '../middlewares/validator.middleware';
 import { TodosCreateUpdateValidator } from '../validators/todos.validator';
 
 import { ControllerInterface, ControllerConstructorInterface } from '../interfaces/controller.interface';
+import { TodosSchemaInterface, TodoStatusInterface } from '../interfaces/schemas/todos.schema.interface';
 
 const { PAGE: { PAGE_SIZE } } = constant;
 
@@ -33,8 +34,8 @@ class TodosController implements ControllerInterface {
     const createdTodos = new TodosModel({
       content,
       remark,
-      // @ts-ignore
-      userId: req.user._id
+      userId: req.user.id,
+      status: TodoStatusInterface.PENDING
     });
     const savedTodos = await createdTodos.save();
     return res.send(savedTodos);

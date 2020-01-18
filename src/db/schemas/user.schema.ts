@@ -2,13 +2,13 @@ import mongoose, { Document } from 'mongoose';
 import md5 from 'md5';
 
 import UserInterface from '../../interfaces/schemas/user.schema.interface';
-import commonSchema from '../common';
-import { formatTime } from '../../helpers/time';
+import { commonOptions, commonFields } from '../common';
 import { randomStr } from '../../helpers/random';
 
 const Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
+
   username: {
     type: String,
     default: md5(randomStr())
@@ -25,18 +25,12 @@ let UserSchema = new Schema({
     type: String,
     required: true
   },
-  ...commonSchema
+  ...commonFields
+}, {
+  ...commonOptions
 });
 
 const UserModel = mongoose.model<UserInterface & Document>('user', UserSchema);
 
-UserSchema.methods.toJSON = function() {
-  let result = this.toObject();
-  result.createTime = formatTime(result.createTime);
-  result.updateTime = formatTime(result.updateTime);
-  delete result.password;
-  delete result.__v;
-  return result;
-};
 
 export default UserModel;
