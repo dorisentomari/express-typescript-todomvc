@@ -17,10 +17,50 @@ Use express and typescript to make a todomvc project, the main purpose is to lea
 + mongoose
 + winston
 
-# Project Start
+# 项目启动(Project Start)
 
 ```
 npm run build-ts  // compile ts file to js
 
 npm run start
+```
+
+# 文件目录(File Directory)
+
+```
+├── package.json
+├── README.md
+├── src
+│   ├── app.ts
+│   ├── constant.ts
+│   ├── db
+│   │   ├── index.ts
+│   │   └── schemas
+│   │       ├── common.ts
+│   │       ├── todos.ts
+│   │       └── user.ts
+│   ├── forms
+│   │   ├── account.ts
+│   │   └── todos.ts
+│   ├── helper
+│   │   ├── random.ts
+│   │   └── time.ts
+│   ├── middlewares
+│   │   ├── auth.ts
+│   │   ├── safeFields.ts
+│   │   ├── validator.ts
+│   │   └── wiston.ts
+│   ├── routes
+│   │   ├── account.ts
+│   │   ├── home.ts
+│   │   ├── index.ts
+│   │   └── todos.ts
+│   ├── service
+│   │   ├── account.ts
+│   │   └── todos.ts
+│   └── types
+│       ├── account.ts
+│       └── todos.ts
+├── tsconfig.json
+└── yarn.lock
 ```
