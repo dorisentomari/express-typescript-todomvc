@@ -44,7 +44,7 @@
     "gravatar": "^1.8.0",
     "md5": "^2.2.1",
     "moment": "^2.24.0",
-    "mongoose": "^4.13.20",
+    "mongoose": "^5.7.5",
     "node-gyp": "^6.1.0",
     "rimraf": "^3.0.0",
     "typescript": "^3.7.4",
